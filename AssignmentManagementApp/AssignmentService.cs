@@ -23,5 +23,10 @@ namespace AssignmentManagementApp
         {
             return assignments;
         }
+
+        public List<Assignment> ListIncomplete()
+        {
+            return assignments.Where(a => !a.IsComplete).ToList();
+        }
     }
 }
