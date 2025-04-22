@@ -1,7 +1,7 @@
 using Xunit;
-using AssignmentLibrary;
+using AssignmentManagementApp;
 
-namespace AssignmentLibrary.Tests;
+namespace AssignmentManagementApp.Tests;
 
 public class AssignmentTests
 {
