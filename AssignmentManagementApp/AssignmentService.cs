@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AssignmentManagementApp
 {
-    internal class AssignmentService
+    public class AssignmentService
     {
         private readonly List<Assignment> assignments = new();
 
