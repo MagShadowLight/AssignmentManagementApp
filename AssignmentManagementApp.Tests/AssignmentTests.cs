@@ -26,4 +26,47 @@ public class AssignmentTests
         Assert.Throws<ArgumentException>(() => assignment.Update("Valid title", ""));
         Assert.Throws<ArgumentException>(() => assignment.Update("", "Valid description"));
     }
+    [Fact]
+    public void When_List_IncompleteAssignments_Should_ReturnOnlyIncompleteAssignments()
+    {
+        var assignmentService = new AssignmentService();
+        var assignment1 = new Assignment("Read Chapter 2", "Summarize key points");
+        var assignment2 = new Assignment("Read Chapter 3", "Summarize key points");
+        assignment1.MarkComplete();
+
+        assignmentService.AddAssignment(assignment1);
+        assignmentService.AddAssignment(assignment2);
+
+        var incompleteAssignments = assignmentService.ListIncomplete();
+
+        Assert.Single(incompleteAssignments);
+        Assert.Equal(assignment2, incompleteAssignments[0]);
+    }
+    [Fact]
+    public void When_Assignment_List_Empty_Should_ReturnEmptyList()
+    {
+        var assignmentService = new AssignmentService();
+        var assignments = assignmentService.ListAll();
+        
+
+        Assert.Empty(assignments);
+    }
+
+    [Fact]
+    public void When_List_CompleteAndIncompleteAssignments_Should_ReturnAllAssignments()
+    {
+        var assignmentService = new AssignmentService();
+        var assignment1 = new Assignment("Read Chapter 2", "Summarize key points");
+        var assignment2 = new Assignment("Read Chapter 3", "Summarize key points");
+        assignment1.MarkComplete();
+
+        assignmentService.AddAssignment(assignment1);
+        assignmentService.AddAssignment(assignment2);
+
+        var allAssignments = assignmentService.ListAll();
+
+        Assert.Equal(2, allAssignments.Count);
+        Assert.Contains(allAssignments, a => a.Title == "Read Chapter 2");
+        Assert.Contains(allAssignments, a => a.Title == "Read Chapter 3");
+    }
 }
