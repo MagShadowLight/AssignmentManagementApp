@@ -15,4 +15,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AssignmentManagementApp.Core\AssignmentManagementApp.Core.csproj" />
+    <ProjectReference Include="..\AssignmentManagementApp.UI\AssignmentManagementApp.UI.csproj" />
+  </ItemGroup>
+
 </Project>

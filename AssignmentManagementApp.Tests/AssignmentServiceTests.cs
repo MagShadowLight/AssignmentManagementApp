@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AssignmentManagementApp.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,7 +40,7 @@ namespace AssignmentManagementApp.Tests
             // Assert
             Assert.Empty(assignments);
         }
-
+        
         [Fact]
         public void When_Assignment_List_Has_Incomplete_And_Complete_Assignments_Then_It_Should_Succeed()
         {

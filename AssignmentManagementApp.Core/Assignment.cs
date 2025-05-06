@@ -1,4 +1,4 @@
-namespace AssignmentManagementApp;
+namespace AssignmentManagementApp.Core;
 
 public class Assignment
 {

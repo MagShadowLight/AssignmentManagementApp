@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssignmentManagementApp", "AssignmentManagementApp\AssignmentManagementApp.csproj", "{75CC89FD-0898-42D0-A8C2-7238556C74BA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssignmentManagementApp.Console", "AssignmentManagementApp\AssignmentManagementApp.Console.csproj", "{75CC89FD-0898-42D0-A8C2-7238556C74BA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssignmentManagementApp.Tests", "AssignmentManagementApp.Tests\AssignmentManagementApp.Tests.csproj", "{4A537EAB-7854-43B5-B939-D9A093DA4FE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssignmentManagementApp.UI", "AssignmentManagementApp.UI\AssignmentManagementApp.UI.csproj", "{79480462-8C67-41E3-A537-AEE4D147876B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssignmentManagementApp.Core", "AssignmentManagementApp.Core\AssignmentManagementApp.Core.csproj", "{C1630252-65B6-43AD-B95F-6B44AC2160C4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{4A537EAB-7854-43B5-B939-D9A093DA4FE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A537EAB-7854-43B5-B939-D9A093DA4FE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A537EAB-7854-43B5-B939-D9A093DA4FE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79480462-8C67-41E3-A537-AEE4D147876B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79480462-8C67-41E3-A537-AEE4D147876B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79480462-8C67-41E3-A537-AEE4D147876B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79480462-8C67-41E3-A537-AEE4D147876B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1630252-65B6-43AD-B95F-6B44AC2160C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1630252-65B6-43AD-B95F-6B44AC2160C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1630252-65B6-43AD-B95F-6B44AC2160C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1630252-65B6-43AD-B95F-6B44AC2160C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
