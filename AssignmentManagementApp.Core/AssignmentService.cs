@@ -26,6 +26,7 @@ namespace AssignmentManagementApp.Core
 
         public List<Assignment> ListAll()
         {
+
             return assignments;
         }
 

@@ -18,7 +18,7 @@ namespace AssignmentManagementApp.UI
 
         public void Run()
         {
-            Console.WriteLine("UI opened");
+            //Console.WriteLine("UI opened");
             while (true)
             {
                 ConsoleColors.MainUIColor();
@@ -66,7 +66,7 @@ namespace AssignmentManagementApp.UI
                     case "0":
                         ConsoleColors.OtherColor();
                         Console.WriteLine("Goodbye");
-                        Console.WriteLine("UI Closing");
+                        //Console.WriteLine("UI Closing");
                         return;
                     default:
                         ConsoleColors.ErrorColor();
@@ -78,7 +78,6 @@ namespace AssignmentManagementApp.UI
 
         public void AddAssignment()
         {
-            //throw new NotImplementedException();
             Console.Write("Enter assignment title: ");
             ConsoleColors.InputColor();
             var title = Console.ReadLine();
@@ -176,7 +175,7 @@ namespace AssignmentManagementApp.UI
 
         private void UpdateAssignment()
         {
-            Console.Write("Enter the current title of assignment: ");
+            Console.Write("Enter the current title of assignment to update: ");
             ConsoleColors.InputColor();
             var oldTitle = Console.ReadLine();
             ConsoleColors.MainUIColor();

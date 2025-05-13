@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssignmentManagementApp.UI"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssignmentManagementApp.Core", "AssignmentManagementApp.Core\AssignmentManagementApp.Core.csproj", "{C1630252-65B6-43AD-B95F-6B44AC2160C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssignmentManagementApp.Api", "AssignmentManagementApp.Api\AssignmentManagementApp.Api.csproj", "{9A4A5632-3D0B-4AC5-8769-1F069D066504}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssignmentManagementApp.ApiTests", "AssignmentManagementApp.ApiTests\AssignmentManagementApp.ApiTests.csproj", "{B9E032A1-C5D2-4A68-9079-481A85796660}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{C1630252-65B6-43AD-B95F-6B44AC2160C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1630252-65B6-43AD-B95F-6B44AC2160C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1630252-65B6-43AD-B95F-6B44AC2160C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A4A5632-3D0B-4AC5-8769-1F069D066504}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A4A5632-3D0B-4AC5-8769-1F069D066504}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A4A5632-3D0B-4AC5-8769-1F069D066504}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A4A5632-3D0B-4AC5-8769-1F069D066504}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9E032A1-C5D2-4A68-9079-481A85796660}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9E032A1-C5D2-4A68-9079-481A85796660}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9E032A1-C5D2-4A68-9079-481A85796660}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9E032A1-C5D2-4A68-9079-481A85796660}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
