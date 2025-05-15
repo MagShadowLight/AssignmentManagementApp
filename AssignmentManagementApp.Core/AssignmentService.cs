@@ -1,4 +1,5 @@
 ﻿
+using AssignmentManagementApp.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,25 @@ namespace AssignmentManagementApp.Core
 {
     public class AssignmentService : IAssignmentService
     {
-        public AssignmentService() { }
+
+        private readonly IAssignmentFormatter _assignmentFormatter;
+        private readonly IAppLogger _logger;
+        
+        public AssignmentService(IAssignmentFormatter assignmentFormatter, IAppLogger logger)
+        {
+            _assignmentFormatter = assignmentFormatter;
+            _logger = logger;
+        }
 
         private readonly List<Assignment> assignments = new();
 
         public bool AddAssignment(Assignment assignment)
         {
             if (assignment == null)
+            {
+                _logger.Log("Error: title is blank");
                 throw new ArgumentNullException(nameof(assignment));
+            }
 
 
             assignments.Add(assignment);

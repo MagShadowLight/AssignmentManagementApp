@@ -1,4 +1,5 @@
 ﻿using AssignmentManagementApp.Core;
+using AssignmentManagementApp.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,14 @@ namespace AssignmentManagementApp.UI
     public class ConsoleUI
     {
         private readonly IAssignmentService _assignmentService;
+        private readonly IAppLogger _logger;
+        private readonly IAssignmentFormatter _formatter;
 
-        public ConsoleUI(IAssignmentService assignmentService)
+        public ConsoleUI(IAssignmentService assignmentService, IAppLogger logger, IAssignmentFormatter formatter)
         {
             _assignmentService = assignmentService;
+            _logger = logger;
+            _formatter = formatter;
         }
 
         public void Run()

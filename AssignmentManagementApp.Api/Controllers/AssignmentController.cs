@@ -1,4 +1,5 @@
 ﻿using AssignmentManagementApp.Core;
+using AssignmentManagementApp.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AssignmentManagementApp.Api.Controllers

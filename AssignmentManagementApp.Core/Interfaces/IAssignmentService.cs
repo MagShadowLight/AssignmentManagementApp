@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AssignmentManagementApp.Core
+namespace AssignmentManagementApp.Core.Interfaces
 {
     public interface IAssignmentService
     {

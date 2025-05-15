@@ -2,6 +2,7 @@ namespace AssignmentManagementApp.Core;
 
 public class Assignment
 {
+    public Guid Id { get; } = Guid.NewGuid();
     public string Title { get; private set; }
     public string Description { get; private set; }
     public bool IsComplete { get; private set; }
