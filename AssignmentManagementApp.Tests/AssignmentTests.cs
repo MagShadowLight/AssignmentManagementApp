@@ -26,9 +26,9 @@ namespace AssignmentManagementApp.Tests
         [Fact]
         public void Update_BlankTitleOrDescription_ShouldThrowException()
         {
-            var assignment = new Assignment("Read Chapter 2", "Summarize key points");
-            Assert.Throws<ArgumentException>(() => assignment.Update("Valid title", ""));
-            Assert.Throws<ArgumentException>(() => assignment.Update("", "Valid description"));
+            var assignment = new Assignment("Read Chapter 2", "Summarize key points", Priority.Low);
+            Assert.Throws<ArgumentException>(() => assignment.Update("Valid title", "", Priority.Low));
+            Assert.Throws<ArgumentException>(() => assignment.Update("", "Valid description", Priority.Low));
         }
         [Fact]
         public void When_Assignment_Has_Default_Priority_Then_It_Should_Succeed()
