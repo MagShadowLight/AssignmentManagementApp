@@ -31,10 +31,11 @@ namespace AssignmentManagementApp.UI
                 Console.WriteLine("1. Add Assignment");
                 Console.WriteLine("2. List All Assignments");
                 Console.WriteLine("3. List Incomplete Assignments");
-                Console.WriteLine("4. Mark Assignment as Complete");
-                Console.WriteLine("5. Search Assignment by Title");
-                Console.WriteLine("6. Update Assignment");
-                Console.WriteLine("7. Delete Assignment");
+                Console.WriteLine("4. List Assignments by Priority");
+                Console.WriteLine("5. Mark Assignment as Complete");
+                Console.WriteLine("6. Search Assignment by Title");
+                Console.WriteLine("7. Update Assignment");
+                Console.WriteLine("8. Delete Assignment");
                 Console.WriteLine("0. Exit");
                 ConsoleColors.InputColor();
                 var input = Console.ReadLine();
@@ -54,17 +55,21 @@ namespace AssignmentManagementApp.UI
                         break;
                     case "4":
                         ConsoleColors.MainUIColor();
-                        MarkAssignmentComplete();
+                        ListAssignmentsByPriority();
                         break;
                     case "5":
                         ConsoleColors.MainUIColor();
-                        SearchAssignmentByTitle();
+                        MarkAssignmentComplete();
                         break;
                     case "6":
                         ConsoleColors.MainUIColor();
-                        UpdateAssignment();
+                        SearchAssignmentByTitle();
                         break;
                     case "7":
+                        ConsoleColors.MainUIColor();
+                        UpdateAssignment();
+                        break;
+                    case "8":
                         ConsoleColors.MainUIColor();
                         DeleteAssignment();
                         break;
@@ -81,6 +86,8 @@ namespace AssignmentManagementApp.UI
             }
         }
 
+        
+
         public void AddAssignment()
         {
             Console.Write("Enter assignment title: ");
@@ -91,9 +98,16 @@ namespace AssignmentManagementApp.UI
             ConsoleColors.InputColor();
             var description = Console.ReadLine();
             ConsoleColors.MainUIColor();
+            Console.Write("Enter assignment priority. Use L, M, or H: ");
+            ConsoleColors.InputColor();
             try
             {
-                var a = new Assignment(title, description);
+                var priorityInput = Console.ReadLine()?.ToUpper();
+                var priorityOutput = ConvertToPriority(priorityInput);
+
+
+
+                var a = new Assignment(title, description, (Priority)priorityOutput);
                 if (_assignmentService.AddAssignment(a))
                 {
                     ConsoleColors.SuccessColor();
@@ -105,7 +119,7 @@ namespace AssignmentManagementApp.UI
                     Console.WriteLine("An assignment with this title already exists.");
                 }
             }
-            catch (ArgumentException ex)
+            catch (Exception ex)
             {
                 ConsoleColors.ErrorColor();
                 Console.WriteLine($"Error: {ex.Message}");
@@ -123,7 +137,7 @@ namespace AssignmentManagementApp.UI
 
             foreach (var assignment in assignments)
             {
-                Console.WriteLine($"- {assignment.Title}: {assignment.Description} (Completed: {assignment.IsComplete})");
+                Console.WriteLine(_formatter.Format(assignment));
             }
         }
 
@@ -138,7 +152,35 @@ namespace AssignmentManagementApp.UI
 
             foreach(var assignment in assignments)
             {
-                Console.WriteLine($"- {assignment.Title}: {assignment.Description} (Completed: {assignment.IsComplete})");
+                Console.WriteLine(_formatter.Format(assignment));
+            }
+        }
+
+        private void ListAssignmentsByPriority()
+        {
+            Priority priorityOutput = (Priority)(-1);
+            Console.Write("Enter the priority. Use (L)ow, (M)edium, or (H)igh: ");
+            ConsoleColors.InputColor();
+            try
+            {
+                var priorityInput = Console.ReadLine()?.ToUpper();
+                priorityOutput = ConvertToPriority(priorityInput);
+            } catch (Exception ex)
+            {
+                ConsoleColors.ErrorColor();
+                Console.WriteLine(ex.Message);
+                return;
+            }
+            var assignments = _assignmentService.ListAssignmentsByPriority(priorityOutput);
+            if (assignments.Count == 0)
+            {
+                Console.WriteLine("No assignments found.");
+                return;
+            }
+
+            foreach (var assignment in assignments)
+            {
+                Console.WriteLine(_formatter.Format(assignment));
             }
         }
 
@@ -170,7 +212,7 @@ namespace AssignmentManagementApp.UI
 
             if (assignment != null)
             {
-                Console.WriteLine($"Found: {assignment.Title}: {assignment.Description} (Completed: {assignment.IsComplete})");
+                Console.WriteLine("Found: " + _formatter.Format(assignment));
             } else
             {
                 ConsoleColors.ErrorColor();
@@ -191,13 +233,20 @@ namespace AssignmentManagementApp.UI
             Console.Write("Enter the new description: ");
             ConsoleColors.InputColor();
             var newDescription = Console.ReadLine();
-
+            ConsoleColors.MainUIColor();
+            Console.Write("Enter the new priority from Low (0) to High (2): ");
+            ConsoleColors.InputColor();
             try
             {
-                if (_assignmentService.UpdateAssignment(oldTitle, newTitle, newDescription))
+                var priorityInput = Console.ReadLine()?.ToUpper();
+                var priorityOutput = ConvertToPriority(priorityInput);
+                if (priorityOutput == (Priority)3)
+                    throw new("Error: Invalid Priority Input.");
+                if (_assignmentService.UpdateAssignment(oldTitle, newTitle, newDescription, priorityOutput))
                 {
                     ConsoleColors.SuccessColor();
                     Console.WriteLine("Assignment updated successfully.");
+
                 }
                 else
                 {
@@ -228,6 +277,21 @@ namespace AssignmentManagementApp.UI
                 Console.WriteLine("Error: Assignment not found.");
             }
         }
+
+        public Priority ConvertToPriority(string priorityvalue)
+        {
+           
+            return priorityvalue switch
+            {
+                "L" => Priority.Low,
+                "M" => Priority.Medium,
+                "H" => Priority.High,
+                _ => throw new Exception("Invalid Priority Input. Use (L)ow, (M)edium, or (H)igh")
+            };
+            
+            
+        }
+
     }
 
     public class ConsoleColors

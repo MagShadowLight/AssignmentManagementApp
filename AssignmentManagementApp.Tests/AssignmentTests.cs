@@ -30,5 +30,17 @@ namespace AssignmentManagementApp.Tests
             Assert.Throws<ArgumentException>(() => assignment.Update("Valid title", ""));
             Assert.Throws<ArgumentException>(() => assignment.Update("", "Valid description"));
         }
+        [Fact]
+        public void When_Assignment_Has_Default_Priority_Then_It_Should_Succeed()
+        {
+            var assignment = new Assignment("Task 1", "Details");
+            Assert.Equal(Priority.Medium, assignment.Priority);
+        }
+        [Fact]
+        public void When_Assignment_Has_High_Priority_Then_It_Should_Succeed()
+        {
+            var assignment = new Assignment("Urgent Task", "Do it now", Priority.High);
+            Assert.Equal(Priority.High, assignment.Priority);
+        }
     }
 }

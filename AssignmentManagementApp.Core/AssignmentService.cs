@@ -38,7 +38,7 @@ namespace AssignmentManagementApp.Core
 
         public List<Assignment> ListAll()
         {
-
+            
             return assignments;
         }
 
@@ -64,7 +64,7 @@ namespace AssignmentManagementApp.Core
             return true;
         }
 
-        public bool UpdateAssignment(string oldTitle, string newTitle, string newDescription)
+        public bool UpdateAssignment(string oldTitle, string newTitle, string newDescription, Priority newPriority)
         {
             var assignment = FindAssignmentByTitle(oldTitle);
             if (assignment == null)
@@ -77,7 +77,7 @@ namespace AssignmentManagementApp.Core
                 return false;
             }
 
-            assignment.Update(newTitle, newDescription);
+            assignment.Update(newTitle, newDescription, newPriority);
             return true;
         }
 
@@ -91,6 +91,11 @@ namespace AssignmentManagementApp.Core
 
             assignments.Remove(assignment);
             return true;
+        }
+
+        public List<Assignment> ListAssignmentsByPriority(Priority priority)
+        {
+            return assignments.Where(a => a.Priority == priority).ToList();
         }
     }
 }
