@@ -14,7 +14,7 @@ namespace AssignmentManagementApp.Core.Interfaces
         public List<Assignment> ListAssignmentsByPriority(Priority priority);
         public Assignment FindAssignmentByTitle(string title);
         public bool MarkAssignmentComplete(string title);
-        public bool UpdateAssignment(string oldTitle, string newTitle, string newDescription, Priority newPriority);
+        public bool UpdateAssignment(string oldTitle, string newTitle, string newDescription, Priority newPriority, string newNote);
         public bool DeleteAssignment(string title);
     }
 }

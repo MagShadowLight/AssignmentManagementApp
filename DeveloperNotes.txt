@@ -1,0 +1,33 @@
+Student Name: William Rose
+Date Submitted: 05-25-2025
+
+---
+PURPOSE OF CHANGE:
+Notes field was added to provide more information for each tasks, helping students and instructors track the details that were not in either title or description.
+
+---
+SUMMARY OF CHANGES:
+Files modified:
+- Assignments.cs
+	- Added Notes property.
+- AssignmentFormatter.cs
+	- Changed Format method to display Notes property.
+- IAssignmentService.cs
+	- Added Notes property to pass to Update method.
+- AssignmentService.cs
+	- Added Notes value to pass toward Update method.
+- ConsoleUI.cs
+	- Modified AddAssignment method to give user input to Notes property.
+	- Modified UpdateAssignment method to give user input the new note.
+
+---
+TDD PROCESS USED:
+I could write test for storing and receiving note, then implement code for Notes field.
+
+---
+CHALLENGES OR DESIGN DECISIONS:
+I have added the string field called Notes to Assignments.cs and changed the ConsoleUI and AssignmentService to include Notes field to the assignments.
+
+---
+NEXT STEPS OR RECOMMENDATIONS:
+I would refactor the ConsoleUI.cs for future iterations.

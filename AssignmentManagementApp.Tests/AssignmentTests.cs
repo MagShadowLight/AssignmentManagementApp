@@ -27,8 +27,8 @@ namespace AssignmentManagementApp.Tests
         public void Update_BlankTitleOrDescription_ShouldThrowException()
         {
             var assignment = new Assignment("Read Chapter 2", "Summarize key points", Priority.Low);
-            Assert.Throws<ArgumentException>(() => assignment.Update("Valid title", "", Priority.Low));
-            Assert.Throws<ArgumentException>(() => assignment.Update("", "Valid description", Priority.Low));
+            Assert.Throws<ArgumentException>(() => assignment.Update("Valid title", "", Priority.Low, ""));
+            Assert.Throws<ArgumentException>(() => assignment.Update("", "Valid description", Priority.Low, ""));
         }
         [Fact]
         public void When_Assignment_Has_Default_Priority_Then_It_Should_Succeed()
@@ -42,5 +42,14 @@ namespace AssignmentManagementApp.Tests
             var assignment = new Assignment("Urgent Task", "Do it now", Priority.High);
             Assert.Equal(Priority.High, assignment.Priority);
         }
+        [Fact]
+        public void When_Assignment_Created_Then_Notes_Should_Stored()
+        {
+            // Arrange
+            var assignment = new Assignment("Task", "Do something", Priority.Low, "Test Note");
+            // Act Assert
+            Assert.Equal("Test Note", assignment.Notes);
+        }
+        
     }
 }

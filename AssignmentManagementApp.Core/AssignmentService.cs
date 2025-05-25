@@ -64,7 +64,7 @@ namespace AssignmentManagementApp.Core
             return true;
         }
 
-        public bool UpdateAssignment(string oldTitle, string newTitle, string newDescription, Priority newPriority)
+        public bool UpdateAssignment(string oldTitle, string newTitle, string newDescription, Priority newPriority, string newNote)
         {
             var assignment = FindAssignmentByTitle(oldTitle);
             if (assignment == null)
@@ -77,7 +77,7 @@ namespace AssignmentManagementApp.Core
                 return false;
             }
 
-            assignment.Update(newTitle, newDescription, newPriority);
+            assignment.Update(newTitle, newDescription, newPriority, newNote);
             return true;
         }
 

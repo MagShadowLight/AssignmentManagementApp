@@ -100,14 +100,21 @@ namespace AssignmentManagementApp.UI
             ConsoleColors.MainUIColor();
             Console.Write("Enter assignment priority. Use L, M, or H: ");
             ConsoleColors.InputColor();
+            Priority priorityOutput;
             try
             {
                 var priorityInput = Console.ReadLine()?.ToUpper();
-                var priorityOutput = ConvertToPriority(priorityInput);
-
-
-
-                var a = new Assignment(title, description, (Priority)priorityOutput);
+                priorityOutput = ConvertToPriority(priorityInput);
+            } catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return;
+            }
+            Console.WriteLine("Enter assignment notes:");
+            var notes = Console.ReadLine();
+            try
+            {
+                var a = new Assignment(title, description, priorityOutput, notes);
                 if (_assignmentService.AddAssignment(a))
                 {
                     ConsoleColors.SuccessColor();
@@ -128,6 +135,7 @@ namespace AssignmentManagementApp.UI
 
         private void ListAllAssignments()
         {
+            ConsoleColors.AssignmentColor();
             var assignments = _assignmentService.ListAll();
             if (assignments.Count == 0)
             {
@@ -143,6 +151,7 @@ namespace AssignmentManagementApp.UI
 
         private void ListIncompleteAssignments()
         {
+            ConsoleColors.AssignmentColor();
             var assignments = _assignmentService.ListIncomplete();
             if (assignments.Count == 0)
             {
@@ -171,6 +180,7 @@ namespace AssignmentManagementApp.UI
                 Console.WriteLine(ex.Message);
                 return;
             }
+            ConsoleColors.AssignmentColor();
             var assignments = _assignmentService.ListAssignmentsByPriority(priorityOutput);
             if (assignments.Count == 0)
             {
@@ -234,15 +244,24 @@ namespace AssignmentManagementApp.UI
             ConsoleColors.InputColor();
             var newDescription = Console.ReadLine();
             ConsoleColors.MainUIColor();
-            Console.Write("Enter the new priority from Low (0) to High (2): ");
+            Console.Write("Enter the new priority. Use (L)ow, (M)edium, or (H)igh");
             ConsoleColors.InputColor();
+            var priorityInput = Console.ReadLine()?.ToUpper();
+            Priority priorityOutput;
             try
             {
-                var priorityInput = Console.ReadLine()?.ToUpper();
-                var priorityOutput = ConvertToPriority(priorityInput);
-                if (priorityOutput == (Priority)3)
-                    throw new("Error: Invalid Priority Input.");
-                if (_assignmentService.UpdateAssignment(oldTitle, newTitle, newDescription, priorityOutput))
+                priorityOutput = ConvertToPriority(priorityInput);
+            } catch (Exception ex)
+            {
+                ConsoleColors.ErrorColor();
+                Console.WriteLine(ex.Message);
+                return;
+            }
+            Console.WriteLine("Enter the new Notes:");
+            var newNotes = Console.ReadLine();
+            try
+            {
+                if (_assignmentService.UpdateAssignment(oldTitle, newTitle, newDescription, priorityOutput, newNotes))
                 {
                     ConsoleColors.SuccessColor();
                     Console.WriteLine("Assignment updated successfully.");
@@ -322,6 +341,11 @@ namespace AssignmentManagementApp.UI
         {
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.Yellow;
-        }   
+        }
+        public static void AssignmentColor()
+        {
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
+        }
     }
 }

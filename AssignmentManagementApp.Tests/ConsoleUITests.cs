@@ -21,7 +21,7 @@ namespace AssignmentManagementApp.Tests
             // Arrange
             var mockService = new Mock<IAssignmentService>();
             var consoleUI = new ConsoleUI(mockService.Object, loggerService.Object, formatterService.Object);
-            using var input = new StringReader("1\nSimple Task\nDo something simple\n0");
+            using var input = new StringReader("1\nSimple Task\nDo something simple\nM\n\n0");
             Console.SetIn(input);
 
             // Act
@@ -40,7 +40,7 @@ namespace AssignmentManagementApp.Tests
 
             var consoleUI = new ConsoleUI(mockService.Object, loggerService.Object, formatterService.Object);
 
-            using var userInput = new StringReader("5\nSimple Task\n0");
+            using var userInput = new StringReader("6\nSimple Task\n0");
             Console.SetIn(userInput);
 
             // Act
@@ -57,7 +57,7 @@ namespace AssignmentManagementApp.Tests
             var mockService = new Mock<IAssignmentService>();
             mockService.Setup(service => service.DeleteAssignment("Simple Task")).Returns(true);
             var consoleUI = new ConsoleUI(mockService.Object, loggerService.Object, formatterService.Object);
-            using var userInput = new StringReader("7\nSimple Task\n0");
+            using var userInput = new StringReader("8\nSimple Task\n0");
             Console.SetIn(userInput);
             // Act
             consoleUI.Run();

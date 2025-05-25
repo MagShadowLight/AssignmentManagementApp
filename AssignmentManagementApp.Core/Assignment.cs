@@ -7,23 +7,27 @@ public class Assignment
     public string Description { get; set; }
     public Priority Priority { get; set; }
     public bool IsComplete { get; set; }
+    public string? Notes { get; set; }
 
-    public Assignment(string title, string description, Priority priority = Priority.Medium)
+    public Assignment(string title, string description, Priority priority = Priority.Medium, string notes = "")
     {
         ValidTitleAndDescription(title, description);
 
         Title = title;
         Description = description;
         Priority = priority;
+        Notes = notes;
+
     }
 
-    public void Update(string newTitle, string newDescription, Priority newPriority)
+    public void Update(string newTitle, string newDescription, Priority newPriority, string newNotes)
     {
         ValidTitleAndDescription(newTitle, newDescription);
 
         Title = newTitle;
         Description = newDescription;
         Priority = newPriority;
+        Notes = newNotes;
     }
 
     private void ValidTitleAndDescription(string title, string description)
