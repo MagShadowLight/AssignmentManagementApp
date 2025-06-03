@@ -10,9 +10,9 @@ namespace AssignmentManagementApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Starting Application");
+            //Console.WriteLine("Starting Application");
             //ConsoleColors.OtherColor();
-            Console.WriteLine("Creating Services");
+            //Console.WriteLine("Creating Services");
             var services = new ServiceCollection();
 
             
@@ -24,7 +24,7 @@ namespace AssignmentManagementApp
 
             var serviceProvider = services.BuildServiceProvider();
             var consoleUI = serviceProvider.GetRequiredService<ConsoleUI>();
-            Console.WriteLine("Services Created");
+            //Console.WriteLine("Services Created");
 
             //Console.WriteLine("Opening UI");
             consoleUI.Run();

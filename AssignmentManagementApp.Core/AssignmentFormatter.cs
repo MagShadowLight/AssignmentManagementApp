@@ -11,7 +11,7 @@ namespace AssignmentManagementApp.Core
     {
         public string Format(Assignment assignment)
         {
-            return $"[{assignment.Id}] {assignment.Title} - Priority: {assignment.Priority} - {(assignment.IsComplete ? "Completed" : "Incomplete")}\n Notes: {assignment.Notes}";
+            return $"[{assignment.Id}] {assignment.Title} - {assignment.Description} - Priority: {assignment.Priority} - {(assignment.IsComplete ? "Completed" : "Incomplete")} - Due Date: {assignment.DueDate}\n Notes: {assignment.Notes}";
         }
     }
 }

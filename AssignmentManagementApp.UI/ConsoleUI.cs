@@ -37,6 +37,7 @@ namespace AssignmentManagementApp.UI
                 Console.WriteLine("7. Update Assignment");
                 Console.WriteLine("8. Delete Assignment");
                 Console.WriteLine("0. Exit");
+                Console.Write("Choose an option: ");
                 ConsoleColors.InputColor();
                 var input = Console.ReadLine();
                 switch (input)
@@ -80,7 +81,7 @@ namespace AssignmentManagementApp.UI
                         return;
                     default:
                         ConsoleColors.ErrorColor();
-                        Console.WriteLine("Invalid choice. Try again");
+                        _logger.Error("Invalid choice. Try again");
                         break;
                 }
             }
@@ -98,6 +99,18 @@ namespace AssignmentManagementApp.UI
             ConsoleColors.InputColor();
             var description = Console.ReadLine();
             ConsoleColors.MainUIColor();
+            Console.WriteLine("Enter the due date. Use MMM DD, YYYY:");
+            ConsoleColors.InputColor();
+            var dateInput = Console.ReadLine();
+            DateTime? dueDate;
+            try
+            {
+                dueDate = DateTime.Parse(dateInput);
+            } catch (Exception ex)
+            {
+                dueDate = null;
+            }
+            ConsoleColors.MainUIColor();
             Console.Write("Enter assignment priority. Use L, M, or H: ");
             ConsoleColors.InputColor();
             Priority priorityOutput;
@@ -107,29 +120,32 @@ namespace AssignmentManagementApp.UI
                 priorityOutput = ConvertToPriority(priorityInput);
             } catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                ConsoleColors.ErrorColor();
+                _logger.Error(ex.Message);
                 return;
             }
+            ConsoleColors.MainUIColor();
             Console.WriteLine("Enter assignment notes:");
+            ConsoleColors.InputColor();
             var notes = Console.ReadLine();
             try
             {
-                var a = new Assignment(title, description, priorityOutput, notes);
+                var a = new Assignment(dueDate, title, description, priorityOutput, notes);
                 if (_assignmentService.AddAssignment(a))
                 {
                     ConsoleColors.SuccessColor();
-                    Console.WriteLine("Assignment added");
+                    _logger.Log("Assignment added");
                 }
                 else
                 {
                     ConsoleColors.ErrorColor();
-                    Console.WriteLine("An assignment with this title already exists.");
+                    _logger.Error("An assignment with this title already exists");
                 }
             }
             catch (Exception ex)
             {
                 ConsoleColors.ErrorColor();
-                Console.WriteLine($"Error: {ex.Message}");
+                _logger.Error(ex.Message);
             }
         }
 
@@ -145,7 +161,13 @@ namespace AssignmentManagementApp.UI
 
             foreach (var assignment in assignments)
             {
+                ConsoleColors.AssignmentColor();
                 Console.WriteLine(_formatter.Format(assignment));
+                if (assignment.IsOverdue())
+                {
+                    ConsoleColors.WarningColor();
+                    _logger.Warn($"this assignment, {assignment.Title}, is overdue!");
+                }
             }
         }
 
@@ -162,6 +184,11 @@ namespace AssignmentManagementApp.UI
             foreach(var assignment in assignments)
             {
                 Console.WriteLine(_formatter.Format(assignment));
+                if (assignment.IsOverdue())
+                {
+                    ConsoleColors.WarningColor();
+                    _logger.Warn($"this assignment, {assignment.Title}, is overdue!");
+                }
             }
         }
 
@@ -177,7 +204,7 @@ namespace AssignmentManagementApp.UI
             } catch (Exception ex)
             {
                 ConsoleColors.ErrorColor();
-                Console.WriteLine(ex.Message);
+                _logger.Error(ex.Message);
                 return;
             }
             ConsoleColors.AssignmentColor();
@@ -191,6 +218,11 @@ namespace AssignmentManagementApp.UI
             foreach (var assignment in assignments)
             {
                 Console.WriteLine(_formatter.Format(assignment));
+                if (assignment.IsOverdue())
+                {
+                    ConsoleColors.WarningColor();
+                    _logger.Warn($"this assignment, {assignment.Title}, is overdue!");
+                }
             }
         }
 
@@ -203,11 +235,11 @@ namespace AssignmentManagementApp.UI
             if (_assignmentService.MarkAssignmentComplete(title))
             {
                 ConsoleColors.SuccessColor();
-                Console.WriteLine("Assignment marked as complete.");
+                _logger.Log("Assignment marked as complete.");
             } else
             {
                 ConsoleColors.ErrorColor();
-                Console.WriteLine("Error: Assignment not found.");
+                _logger.Error("Assignment not found.");
                 
             }
         }
@@ -226,7 +258,7 @@ namespace AssignmentManagementApp.UI
             } else
             {
                 ConsoleColors.ErrorColor();
-                Console.WriteLine("Error: Assignment not found.");
+                _logger.Error("Assignment not found.");
             }
         }
 
@@ -254,7 +286,7 @@ namespace AssignmentManagementApp.UI
             } catch (Exception ex)
             {
                 ConsoleColors.ErrorColor();
-                Console.WriteLine(ex.Message);
+                _logger.Error(ex.Message);
                 return;
             }
             Console.WriteLine("Enter the new Notes:");
@@ -264,18 +296,18 @@ namespace AssignmentManagementApp.UI
                 if (_assignmentService.UpdateAssignment(oldTitle, newTitle, newDescription, priorityOutput, newNotes))
                 {
                     ConsoleColors.SuccessColor();
-                    Console.WriteLine("Assignment updated successfully.");
+                    _logger.Log("Assignment updated successfully.");
 
                 }
                 else
                 {
                     ConsoleColors.ErrorColor();
-                    Console.WriteLine("Error: Assignment update failed. Title may conflict or assignment not found.");
+                    _logger.Error("Assignment update failed. Title may conflict or assignment not found.");
                 }
             } catch (Exception ex)
             {
                 ConsoleColors.ErrorColor();
-                Console.WriteLine($"Error: {ex.Message}");
+                _logger.Error(ex.Message);
             }
         }
 
@@ -288,12 +320,12 @@ namespace AssignmentManagementApp.UI
             if (_assignmentService.DeleteAssignment(title))
             {
                 ConsoleColors.SuccessColor();
-                Console.WriteLine("Assignment deleted successfully.");
+                _logger.Log("Assignment deleted successfully.");
             }
             else
             {
                 ConsoleColors.ErrorColor();
-                Console.WriteLine("Error: Assignment not found.");
+                _logger.Error("Assignment not found.");
             }
         }
 
@@ -340,12 +372,17 @@ namespace AssignmentManagementApp.UI
         public static void OtherColor()
         {
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.ForegroundColor = ConsoleColor.DarkGray;
         }
         public static void AssignmentColor()
         {
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
+        }
+        public static void WarningColor()
+        {
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.Yellow;
         }
     }
 }

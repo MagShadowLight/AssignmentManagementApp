@@ -6,10 +6,11 @@ public class Assignment
     public string Title { get; set; }
     public string Description { get; set; }
     public Priority Priority { get; set; }
+    public DateTime? DueDate { get; set; }
     public bool IsComplete { get; set; }
     public string? Notes { get; set; }
 
-    public Assignment(string title, string description, Priority priority = Priority.Medium, string notes = "")
+    public Assignment(DateTime? dueDate, string title, string description, Priority priority = Priority.Medium, string notes = "")
     {
         ValidTitleAndDescription(title, description);
 
@@ -17,6 +18,8 @@ public class Assignment
         Description = description;
         Priority = priority;
         Notes = notes;
+        DueDate = dueDate;
+        IsComplete = false;
 
     }
 
@@ -45,5 +48,16 @@ public class Assignment
     public void MarkComplete()
     {
         IsComplete = true;
+    }
+
+    public bool IsOverdue()
+    {
+        if (!IsComplete && DueDate != null)
+        {
+            return DueDate.Value < DateTime.Now;
+        } else
+        {
+            return false;
+        }
     }
 }

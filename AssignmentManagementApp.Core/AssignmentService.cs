@@ -13,7 +13,7 @@ namespace AssignmentManagementApp.Core
 
         private readonly IAssignmentFormatter _assignmentFormatter;
         private readonly IAppLogger _logger;
-        
+
         public AssignmentService(IAssignmentFormatter assignmentFormatter, IAppLogger logger)
         {
             _assignmentFormatter = assignmentFormatter;
@@ -33,12 +33,12 @@ namespace AssignmentManagementApp.Core
 
             assignments.Add(assignment);
             return true;
-            
+
         }
 
         public List<Assignment> ListAll()
         {
-            
+
             return assignments;
         }
 
@@ -97,5 +97,6 @@ namespace AssignmentManagementApp.Core
         {
             return assignments.Where(a => a.Priority == priority).ToList();
         }
+        
     }
 }

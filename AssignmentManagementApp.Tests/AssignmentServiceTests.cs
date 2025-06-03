@@ -1,4 +1,6 @@
 ﻿using AssignmentManagementApp.Core;
+using AssignmentManagementApp.UI;
+using Castle.Core.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -16,8 +18,8 @@ namespace AssignmentManagementApp.Tests
             // Arrange
             
             var service = new AssignmentService(new AssignmentFormatter(), new ConsoleAppLogger());
-            var assignment1 = new Assignment("Read Chapter 1", "Summarize key points");
-            var assignment2 = new Assignment("Read Chapter 2", "Summarize key points");
+            var assignment1 = new Assignment(DateTime.Now, "Read Chapter 1", "Summarize key points");
+            var assignment2 = new Assignment(DateTime.Now, "Read Chapter 2", "Summarize key points");
             assignment2.MarkComplete(); // Mark this one as complete
 
             service.AddAssignment(assignment1);
@@ -48,8 +50,8 @@ namespace AssignmentManagementApp.Tests
         {
             // Arrange
             var service = new AssignmentService(new AssignmentFormatter(), new ConsoleAppLogger());
-            var assignment1 = new Assignment("Read Chapter 1", "Summarize key points");
-            var assignment2 = new Assignment("Read Chapter 2", "Summarize key points");
+            var assignment1 = new Assignment(DateTime.Now, "Read Chapter 1", "Summarize key points");
+            var assignment2 = new Assignment(DateTime.Now, "Read Chapter 2", "Summarize key points");
             assignment2.MarkComplete(); // Mark this one as complete
 
             service.AddAssignment(assignment1);
@@ -70,7 +72,7 @@ namespace AssignmentManagementApp.Tests
 
             // Arrange
             var service = new AssignmentFormatter();
-            var assignment = new Assignment("Test Task", "This is a test");
+            var assignment = new Assignment(DateTime.Now, "Test Task", "This is a test");
 
             // Act
             var result = service.Format(assignment);
@@ -80,7 +82,7 @@ namespace AssignmentManagementApp.Tests
         }
 
         [Fact]
-        public void When_Logger_Display_Text_Then_It_Should_Succeed()
+        public void When_Logger_Display_Log_Then_It_Should_Succeed()
         {
             // Arrange
             ConsoleAppLogger logger = new ConsoleAppLogger();
@@ -97,7 +99,81 @@ namespace AssignmentManagementApp.Tests
             }
             ResetOutput();
         }
+        [Fact]
+        public void When_Logger_Display_Error_Then_It_Should_Succeed()
+        {
+            // Arrange
+            ConsoleAppLogger logger = new ConsoleAppLogger();
+            string message = "Invalid choice. Try again.";
 
+            // Act
+            using (StringWriter sw = new StringWriter())
+            {
+                Console.SetOut(sw);
+                logger.Error(message);
+
+                string outputmessage = sw.ToString();
+
+                // Assert
+                Assert.Contains(message, outputmessage);
+            }
+            ResetOutput();
+        }
+        [Fact]
+        public void When_Assignment_Created_Then_Logger_Should_Display_That_Assignment_Created()
+        {
+            // Arrange
+            ConsoleAppLogger logger = new ConsoleAppLogger();
+            string message = "Assignment added";
+
+            // Act
+            using (StringWriter sw = new StringWriter())
+            {
+                Console.SetOut(sw);
+                logger.Log(message);
+
+                string outputmessage = sw.ToString();
+
+                // Assert
+                Assert.Contains(message, outputmessage);
+            }
+            ResetOutput();
+        }
+        [Fact]
+        public void When_Formatter_Display_Assignment_Then_It_Should_Display_Notes()
+        {
+            // Arrange
+            AssignmentFormatter formatter = new AssignmentFormatter();
+            Assignment assignment = new Assignment(null, "Test Task", "Do something", Priority.Low, "Test note");
+            // Act
+            string outputnote = formatter.Format(assignment);
+            // Assert
+            Assert.Contains($"Test note", outputnote);
+            
+        }
+        [Fact]
+        public void When_Assignments_Are_Overdue_Then_Logger_Should_Display_Warning()
+        {
+            // Arrange
+            var assignment = new Assignment(DateTime.Parse("June 1, 2025"), "Task", "do something", Priority.Low, "");
+            var logger = new ConsoleAppLogger();
+            var message = $"this assignment, {assignment.Title}, is overdue!";
+            // Act
+            using (StringWriter sw = new StringWriter())
+            {
+                Console.SetOut(sw);
+                if (assignment.IsOverdue())
+                {
+                    logger.Warn(message);
+                }
+
+                string outputmessage = sw.ToString();
+
+                // Assert
+                Assert.Contains(message, outputmessage);
+            }
+            ResetOutput();
+        }
         private void ResetOutput()
         {
             Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
