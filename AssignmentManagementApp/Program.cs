@@ -10,20 +10,12 @@ namespace AssignmentManagementApp
     {
         static void Main(string[] args)
         {
-            //Console.WriteLine("Starting Application");
-            //ConsoleColors.OtherColor();
-            //Console.WriteLine("Creating Services");
             var services = new ServiceCollection();
             SingletonCollection.AddMultipleServices(services);
             //services.AddSingleton<AssignmentController>();
-
             var serviceProvider = services.BuildServiceProvider();
             var consoleUI = serviceProvider.GetRequiredService<ConsoleUI>();
-            //Console.WriteLine("Services Created");
-
-            //Console.WriteLine("Opening UI");
             consoleUI.Run();
-            //Console.WriteLine("UI Closed");
             Console.ForegroundColor = ConsoleColor.Gray;
         }
     }

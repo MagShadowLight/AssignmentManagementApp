@@ -24,14 +24,10 @@ namespace AssignmentManagementApp.ApiTests
             var json = new StringContent(
                 JsonSerializer.Serialize(new { title = "Simple Task", description = "do something simple" }),
                 Encoding.UTF8, "application/json");
-
             // Act
             var createResponse = await _httpClient.PostAsync("/api/Assignment", json);
-
             // Assert
             createResponse.EnsureSuccessStatusCode();
-
-
         }
 
         [Fact]
@@ -42,17 +38,13 @@ namespace AssignmentManagementApp.ApiTests
                 JsonSerializer.Serialize(new { title = "Simple Task", description = "do something simple" }),
                 Encoding.UTF8, "application/json");
             await _httpClient.PostAsync("/api/Assignment", json);
-
-
             var getResponse = await _httpClient.GetAsync("/api/Assignment");
-
             // Act
             var getAssignmentJson = await getResponse.Content.ReadAsStringAsync();
             var assignment = JsonSerializer.Deserialize<List<Assignment>>(getAssignmentJson, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });
-
             // Assert
             getResponse.EnsureSuccessStatusCode();
             Assert.Contains(assignment, assignments => assignments.Title == "Simple Task");

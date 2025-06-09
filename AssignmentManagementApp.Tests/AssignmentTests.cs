@@ -10,7 +10,7 @@ namespace AssignmentManagementApp.Tests
     public class AssignmentTests
     {
         [Fact]
-        public void Constructor_ValidInput_ShouldCreateAssignment()
+        public void When_Constructor_Valid_Input_Then_It_Should_Create_Assignment()
         {
             var assignment = new Assignment(DateTime.Now, "Read Chapter 2", "Summarize key points");
             Assert.Equal("Read Chapter 2", assignment.Title);
@@ -18,13 +18,13 @@ namespace AssignmentManagementApp.Tests
         }
 
         [Fact]
-        public void Constructor_BlankTitle_ShouldThrowException()
+        public void When_Constructor_Has_Blank_Title_Then_It_Should_Throw_Exception()
         {
             Assert.Throws<ArgumentException>(() => new Assignment(DateTime.Now, "", "Valid description"));
         }
 
         [Fact]
-        public void Update_BlankTitleOrDescription_ShouldThrowException()
+        public void When_Update_Has_Blank_Title_Or_Description_Then_It_Should_Throw_Exception()
         {
             var assignment = new Assignment(DateTime.Now, "Read Chapter 2", "Summarize key points", Priority.Low);
             Assert.Throws<ArgumentException>(() => assignment.Update("Valid title", "", Priority.Low, ""));

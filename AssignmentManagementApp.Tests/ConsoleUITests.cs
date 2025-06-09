@@ -23,11 +23,8 @@ namespace AssignmentManagementApp.Tests
             var consoleUI = new ConsoleUI(mockService.Object, loggerService.Object, formatterService.Object);
             using var input = new StringReader("1\nSimple Task\nDo something simple\n\nM\n\n0");
             Console.SetIn(input);
-
             // Act
-
             consoleUI.Run();
-
             // Assert
             mockService.Verify(user => user.AddAssignment(It.Is<Assignment>(assignment => assignment.Title == "Simple Task" && assignment.Description == "Do something simple")), Times.Once());
         }
@@ -37,15 +34,11 @@ namespace AssignmentManagementApp.Tests
             // Arrange
             var mockService = new Mock<IAssignmentService>();
             mockService.Setup(services => services.FindAssignmentByTitle("Simple Task")).Returns(new Assignment(DateTime.Now, "Simple Task", "Do something simple"));
-
             var consoleUI = new ConsoleUI(mockService.Object, loggerService.Object, formatterService.Object);
-
             using var userInput = new StringReader("6\nSimple Task\n0");
             Console.SetIn(userInput);
-
             // Act
             consoleUI.Run();
-
             // Assert
             mockService.Verify(user => user.FindAssignmentByTitle("Simple Task"), Times.Once());
         }
