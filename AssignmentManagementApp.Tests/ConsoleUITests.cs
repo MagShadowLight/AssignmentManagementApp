@@ -87,7 +87,7 @@ namespace AssignmentManagementApp.Tests
             // Arrange
             var mockService = new Mock<IAssignmentService>();
             var assignment = new Assignment(DateTime.Now, "Task", "Do something", Priority.High, "");
-            mockService.Setup(service => service.UpdateAssignment(assignment.Title, "Simple Task", "Do something simple", Priority.Low, "")).Returns(true);
+            mockService.Setup(service => service.UpdateAssignment(assignment.Title, "Simple Task", "Do something simple", Priority.Low, ""));
             var consoleUI = new ConsoleUI(mockService.Object, loggerService.Object, formatterService.Object);
             // Act
             using var userInput = new StringReader("7\nTask\nSimple Task\nDo something simple\nL\n\n0");
@@ -110,6 +110,47 @@ namespace AssignmentManagementApp.Tests
             consoleUI.Run();
             // Assert
             mockService.Verify(user => user.MarkAssignmentComplete("Task"), Times.Once);
+        }
+        [Fact]
+        public void When_User_Select_List_All_Assignments_Then_It_Should_Return_Assignments_List()
+        {
+            // Arrange
+            var mockService = new Mock<IAssignmentService>();
+            var consoleUI = new ConsoleUI(mockService.Object, loggerService.Object, formatterService.Object);
+            List<Assignment> assignments = new List<Assignment>
+            {
+                new Assignment(DateTime.Now, "Test Task", "meow"),
+                new Assignment(DateTime.Now, "Test Task 2", "mrow")
+            };
+            mockService.Setup(service => service.ListAll()).Returns(assignments);
+            using var userInput = new StringReader("2\n0");
+            Console.SetIn(userInput);
+            // Act
+            consoleUI.Run();
+            // Assert
+            mockService.Verify(user => user.ListAll(), Times.Once());
+        }
+        [Fact]
+        public void When_User_Select_List_Incomplete_Assignments_Then_It_Should_Return_List_Of_Incomplete_Assignments()
+        {
+            // Arrange
+            var mockService = new Mock<IAssignmentService>();
+            var consoleUI = new ConsoleUI(mockService.Object, loggerService.Object, formatterService.Object);
+            List<Assignment> incompleteAssignments = new List<Assignment>();
+            var assignment1 = new Assignment(DateTime.Now, "Test Task", "meow", Priority.Medium, "");
+            var assignment2 = new Assignment(DateTime.Now, "Test Task 2", "mrow", Priority.High, "");
+            var assignment3 = new Assignment(DateTime.Now, "Test Task 3", "mrrp", Priority.Low, "");
+            assignment2.MarkComplete();
+            incompleteAssignments.Add(assignment1);
+            incompleteAssignments.Add(assignment2);
+            incompleteAssignments.Add(assignment3);
+            // Act
+            mockService.Setup(service => service.ListIncomplete()).Returns(incompleteAssignments);
+            using var userInput = new StringReader("3\n0");
+            Console.SetIn(userInput);
+            consoleUI.Run();
+            // Assert
+            mockService.Verify(user => user.ListIncomplete(), Times.Once());
         }
     }
 }

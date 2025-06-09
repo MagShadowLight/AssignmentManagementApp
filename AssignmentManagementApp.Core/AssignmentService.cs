@@ -29,11 +29,8 @@ namespace AssignmentManagementApp.Core
                 _logger.Log("Error: title is blank");
                 throw new ArgumentNullException(nameof(assignment));
             }
-
-
             assignments.Add(assignment);
             return true;
-
         }
 
         public List<Assignment> ListAll()
@@ -64,21 +61,21 @@ namespace AssignmentManagementApp.Core
             return true;
         }
 
-        public bool UpdateAssignment(string oldTitle, string newTitle, string newDescription, Priority newPriority, string newNote)
+        public void UpdateAssignment(string oldTitle, string newTitle, string newDescription, Priority newPriority, string newNote)
         {
             var assignment = FindAssignmentByTitle(oldTitle);
             if (assignment == null)
             {
-                return false;
+                throw new NullReferenceException("Assignment not found.");
             }
 
             if (!oldTitle.Equals(newTitle, StringComparison.OrdinalIgnoreCase) && assignments.Any(a => a.Title.Equals(newTitle, StringComparison.OrdinalIgnoreCase)))
             {
-                return false;
+                throw new Exception("An assignment with the old title already exists.");
             }
 
             assignment.Update(newTitle, newDescription, newPriority, newNote);
-            return true;
+            
         }
 
         public bool DeleteAssignment(string title)

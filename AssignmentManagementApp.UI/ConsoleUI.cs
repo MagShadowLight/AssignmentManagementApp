@@ -10,9 +10,9 @@ namespace AssignmentManagementApp.UI
 {
     public class ConsoleUI
     {
-        private readonly IAssignmentService _assignmentService;
-        private readonly IAppLogger _logger;
-        private readonly IAssignmentFormatter _formatter;
+        protected readonly IAssignmentService _assignmentService;
+        protected readonly IAppLogger _logger;
+        protected readonly IAssignmentFormatter _formatter;
 
         public ConsoleUI(IAssignmentService assignmentService, IAppLogger logger, IAssignmentFormatter formatter)
         {
@@ -91,56 +91,17 @@ namespace AssignmentManagementApp.UI
 
         public void AddAssignment()
         {
-            Console.Write("Enter assignment title: ");
-            ConsoleColors.InputColor();
-            var title = Console.ReadLine();
-            ConsoleColors.MainUIColor();
-            Console.Write("Enter assignment description: ");
-            ConsoleColors.InputColor();
-            var description = Console.ReadLine();
-            ConsoleColors.MainUIColor();
-            Console.WriteLine("Enter the due date. Use MMM DD, YYYY:");
-            ConsoleColors.InputColor();
-            var dateInput = Console.ReadLine();
-            DateTime? dueDate;
+            var title = UserInput.GetStringInput("Enter assignment title: ");
+            var description = UserInput.GetStringInput("Enter assignment description: ");
+            var dueDate = UserInput.GetDateInput("Enter assignment due date (MMM DD, YYYY): ");
+            var priority = UserInput.GetPriority("Enter assignment priority. Use (L)ow, (M)edium, or (H)igh: ");
+            var notes = UserInput.GetStringInput("Enter assignment notes: ");
             try
             {
-                dueDate = DateTime.Parse(dateInput);
-            } catch (Exception ex)
-            {
-                dueDate = null;
-            }
-            ConsoleColors.MainUIColor();
-            Console.Write("Enter assignment priority. Use L, M, or H: ");
-            ConsoleColors.InputColor();
-            Priority priorityOutput;
-            try
-            {
-                var priorityInput = Console.ReadLine()?.ToUpper();
-                priorityOutput = ConvertToPriority(priorityInput);
-            } catch (Exception ex)
-            {
-                ConsoleColors.ErrorColor();
-                _logger.Error(ex.Message);
-                return;
-            }
-            ConsoleColors.MainUIColor();
-            Console.WriteLine("Enter assignment notes:");
-            ConsoleColors.InputColor();
-            var notes = Console.ReadLine();
-            try
-            {
-                var a = new Assignment(dueDate, title, description, priorityOutput, notes);
-                if (_assignmentService.AddAssignment(a))
-                {
-                    ConsoleColors.SuccessColor();
-                    _logger.Log("Assignment added");
-                }
-                else
-                {
-                    ConsoleColors.ErrorColor();
-                    _logger.Error("An assignment with this title already exists");
-                }
+                var assignment = new Assignment(dueDate, title, description, priority, notes);
+                _assignmentService.AddAssignment(assignment);
+                ConsoleColors.SuccessColor();
+                _logger.Log("Assignment added");
             }
             catch (Exception ex)
             {
@@ -194,21 +155,9 @@ namespace AssignmentManagementApp.UI
 
         private void ListAssignmentsByPriority()
         {
-            Priority priorityOutput = (Priority)(-1);
-            Console.Write("Enter the priority. Use (L)ow, (M)edium, or (H)igh: ");
-            ConsoleColors.InputColor();
-            try
-            {
-                var priorityInput = Console.ReadLine()?.ToUpper();
-                priorityOutput = ConvertToPriority(priorityInput);
-            } catch (Exception ex)
-            {
-                ConsoleColors.ErrorColor();
-                _logger.Error(ex.Message);
-                return;
-            }
+            Priority priority = UserInput.GetPriority("Enter the priority. Use (L)ow, (M)edium, or (H)igh: ");
             ConsoleColors.AssignmentColor();
-            var assignments = _assignmentService.ListAssignmentsByPriority(priorityOutput);
+            var assignments = _assignmentService.ListAssignmentsByPriority(priority);
             if (assignments.Count == 0)
             {
                 Console.WriteLine("No assignments found.");
@@ -264,46 +213,18 @@ namespace AssignmentManagementApp.UI
 
         private void UpdateAssignment()
         {
-            Console.Write("Enter the current title of assignment to update: ");
-            ConsoleColors.InputColor();
-            var oldTitle = Console.ReadLine();
-            ConsoleColors.MainUIColor();
-            Console.Write("Enter the new title: ");
-            ConsoleColors.InputColor();
-            var newTitle = Console.ReadLine();
-            ConsoleColors.MainUIColor();
-            Console.Write("Enter the new description: ");
-            ConsoleColors.InputColor();
-            var newDescription = Console.ReadLine();
-            ConsoleColors.MainUIColor();
-            Console.Write("Enter the new priority. Use (L)ow, (M)edium, or (H)igh");
-            ConsoleColors.InputColor();
-            var priorityInput = Console.ReadLine()?.ToUpper();
-            Priority priorityOutput;
+            var oldTitle = UserInput.GetStringInput("Enter the current title of the assignment to update: ");
+            var newTitle = UserInput.GetStringInput("Enter the new title: ");
+            var newDescription = UserInput.GetStringInput("Enter the new description: ");
+            Priority newPriority;
+            var newNotes = string.Empty;
             try
             {
-                priorityOutput = ConvertToPriority(priorityInput);
-            } catch (Exception ex)
-            {
-                ConsoleColors.ErrorColor();
-                _logger.Error(ex.Message);
-                return;
-            }
-            Console.WriteLine("Enter the new Notes:");
-            var newNotes = Console.ReadLine();
-            try
-            {
-                if (_assignmentService.UpdateAssignment(oldTitle, newTitle, newDescription, priorityOutput, newNotes))
-                {
-                    ConsoleColors.SuccessColor();
-                    _logger.Log("Assignment updated successfully.");
-
-                }
-                else
-                {
-                    ConsoleColors.ErrorColor();
-                    _logger.Error("Assignment update failed. Title may conflict or assignment not found.");
-                }
+                newPriority = UserInput.GetPriority("Enter the new priority. Use (L)ow, (M)edium, or (H)igh: ");
+                newNotes = UserInput.GetStringInput("Enter the new notes: ");
+                _assignmentService.UpdateAssignment(oldTitle, newTitle, newDescription, newPriority, newNotes);
+                ConsoleColors.SuccessColor();
+                _logger.Log("Assignment updated successfully.");
             } catch (Exception ex)
             {
                 ConsoleColors.ErrorColor();
@@ -385,4 +306,51 @@ namespace AssignmentManagementApp.UI
             Console.ForegroundColor = ConsoleColor.Yellow;
         }
     }
+
+    public class UserInput
+    {
+        public UserInput() { }
+
+        public static string GetStringInput(string prompt)
+        {
+            Console.Write(prompt);
+            ConsoleColors.InputColor();
+            var input = Console.ReadLine();
+            ConsoleColors.MainUIColor();
+            return input;
+        }
+
+        public static DateTime? GetDateInput(string message)
+        {
+            Console.Write(message);
+            ConsoleColors.InputColor();
+            var dateInput = Console.ReadLine();
+            ConsoleColors.MainUIColor();
+            try
+            {
+                return DateTime.Parse(dateInput);
+            }
+            catch (FormatException)
+            {
+                return null;
+            }
+        }
+
+        public static Priority GetPriority(string message)
+        {
+            Console.Write(message);
+            ConsoleColors.InputColor();
+            var priorityInput = Console.ReadLine()?.ToUpper();
+            ConsoleColors.MainUIColor();
+            return priorityInput switch
+            {
+                "L" => Priority.Low,
+                "M" => Priority.Medium,
+                "H" => Priority.High,
+                _ => throw new Exception("Invalid Priority Input. Use (L)ow, (M)edium, or (H)igh")
+            };
+        }
+    }
+
+    
 }

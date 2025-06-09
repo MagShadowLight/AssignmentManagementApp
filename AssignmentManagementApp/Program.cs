@@ -14,12 +14,7 @@ namespace AssignmentManagementApp
             //ConsoleColors.OtherColor();
             //Console.WriteLine("Creating Services");
             var services = new ServiceCollection();
-
-            
-            services.AddSingleton<IAssignmentService,AssignmentService>();
-            services.AddSingleton<IAppLogger, ConsoleAppLogger>();
-            services.AddSingleton<IAssignmentFormatter, AssignmentFormatter>();
-            services.AddSingleton<ConsoleUI>();
+            SingletonCollection.AddMultipleServices(services);
             //services.AddSingleton<AssignmentController>();
 
             var serviceProvider = services.BuildServiceProvider();
@@ -31,5 +26,18 @@ namespace AssignmentManagementApp
             //Console.WriteLine("UI Closed");
             Console.ForegroundColor = ConsoleColor.Gray;
         }
+    }
+
+    public class SingletonCollection
+    {
+        public SingletonCollection() { }
+
+        public static void AddMultipleServices(ServiceCollection collection)
+        {
+            collection.AddSingleton<IAssignmentService, AssignmentService>();
+            collection.AddSingleton<IAppLogger, ConsoleAppLogger>();
+            collection.AddSingleton<IAssignmentFormatter, AssignmentFormatter>();
+            collection.AddSingleton<ConsoleUI>();
+        } 
     }
 }
