@@ -154,5 +154,63 @@ namespace AssignmentManagementApp.Tests
         {
             Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
         }
+        [Fact]
+        public void When_Trying_To_Update_Assignment_With_Blank_Title_Then_It_Should_Throw_Exception()
+        {
+            // Arrange
+            var service = new AssignmentService(new AssignmentFormatter(), new ConsoleAppLogger());
+            var assignment = new Assignment(DateTime.Now, "Test Task", "This is a test");
+            service.AddAssignment(assignment);
+            // Act & Assert
+            Assert.Throws<ArgumentException>(() => service.UpdateAssignment("Test Task", "", "New Description", Priority.High, "New Note"));
+        }
+        [Fact]
+        public void When_Trying_To_Add_Assignment_With_Blank_Title_Then_It_Should_Throw_Exception()
+        {
+            // Arrange
+            var service = new AssignmentService(new AssignmentFormatter(), new ConsoleAppLogger());
+            // Act // Assert
+            Assert.Throws<ArgumentException>(() => service.AddAssignment(new Assignment(DateTime.Now, null, "This is a test")));
+        }
+        [Fact]
+        public void When_Assignment_Were_Marked_As_Complete_Then_It_Should_Succeed()
+        {
+            // Arrange
+            var service = new AssignmentService(new AssignmentFormatter(), new ConsoleAppLogger());
+            var assignment = new Assignment(DateTime.Now, "Meow", "meow");
+            service.AddAssignment(assignment);
+            // Act 
+            service.MarkAssignmentComplete("Meow");
+            // Assert
+            Assert.True(assignment.IsComplete);
+        }
+        [Fact]
+        public void When_Assignment_Were_Deleted_Then_It_Should_Succeed()
+        {
+            // Arrange
+            var service = new AssignmentService(new AssignmentFormatter(), new ConsoleAppLogger());
+            var assignment1 = new Assignment(DateTime.Now, "Meow", "meow");
+            var assignment2 = new Assignment(DateTime.Now, "Mrow", "mrow");
+            service.AddAssignment(assignment1);
+            service.AddAssignment(assignment2);
+            // Act
+            service.DeleteAssignment("Mrow");
+            // Assert
+            Assert.Contains(service.ListAll(), a => a.Title == "Meow");
+        }
+        [Fact]
+        public void When_Assignment_Has_Low_Priority_Then_It_Should_Returns_Only_Low_Priority()
+        {
+            // Arrange
+            var service = new AssignmentService(new AssignmentFormatter(), new ConsoleAppLogger());
+            var assignment1 = new Assignment(DateTime.Now, "Meow", "meow", Priority.Low);
+            var assignment2 = new Assignment(DateTime.Now, "Mrow", "mrow");
+            service.AddAssignment(assignment1);
+            service.AddAssignment(assignment2);
+            // Act
+            List<Assignment> AssignmentWithLow = service.ListAssignmentsByPriority(Priority.Low);
+            // Assert
+            Assert.Equal(1,AssignmentWithLow.Count());
+        }
     }
 }

@@ -31,7 +31,6 @@ namespace AssignmentManagementApp.Api.Controllers
         [HttpDelete("{Title}")]
         public IActionResult DeleteAssignment(String Title)
         {
-            Console.WriteLine($"{Title}");
             _assignmentService.DeleteAssignment(Title);
             return NoContent();
         }

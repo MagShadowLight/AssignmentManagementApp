@@ -9,7 +9,17 @@ This app allows students to track and update their assignments using a modular, 
 - Moq-based unit testing
 - Regression testing and bug tracking
 
-## Setup
+## Prequisite
+- Git
+- dotnet-sdk 8.0 or later
+### Windows
+- Visual Studio 2022 or later
+### Linux
+- Terminal like kitty, ghostly, konsole
+- Visual Studio Code
+- C# Dev Kit Extension for VS Code.
+
+## Setup and run project
 
 ### Windows
 1. Clone this repository
@@ -18,8 +28,12 @@ This app allows students to track and update their assignments using a modular, 
 
 ### Linux
 1. Clone this repository
+#### Terminals:
 2. open the terminal like Kitty, Konsole, or others and navigate to the console directory
 3. run the command `dotnet run`
+#### VS Code:
+2. Open the VS code and open the folder called `AssignmentManagementApp`
+3. press `F5` or click `Run and Debug` on left section of VS Code (Arrow with a bug button) and press the green arrow on top.
 
 ## Tests
 
@@ -32,9 +46,16 @@ This app allows students to track and update their assignments using a modular, 
 
 ### Linux
 1. Clone this repository
+#### Terminals
 2. Open the terminal like Kitty, Konsole, or others and navigate to the test directory
 3. Run the command `dotnet test`
 4. Check the results in the terminal output
+#### VS Code
+2. Open VS code and open folder called `AssignmentManagementApp`
+3. On the left side of VS Code, click the Lab container symbol (testing). 
+  Note: If you do not see the testing tab, download `C# Dev Kit` from VS Code Extensions.
+4. press the double arrow (Run Tests).
+5. Check on the result on the left side.
 
 ## Contributing
 If you wish to contribute, fork this repository and submit the pull request.

@@ -17,7 +17,7 @@ namespace AssignmentManagementApp.Api
             
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            //builder.Services.
+            
             builder.Services.AddSingleton<IAssignmentFormatter, AssignmentFormatter>();
             builder.Services.AddSingleton<IAppLogger, ConsoleAppLogger>();
             builder.Services.AddSingleton<IAssignmentService, AssignmentService>();

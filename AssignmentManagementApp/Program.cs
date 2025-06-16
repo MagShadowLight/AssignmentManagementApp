@@ -12,7 +12,6 @@ namespace AssignmentManagementApp
         {
             var services = new ServiceCollection();
             SingletonCollection.AddMultipleServices(services);
-            //services.AddSingleton<AssignmentController>();
             var serviceProvider = services.BuildServiceProvider();
             var consoleUI = serviceProvider.GetRequiredService<ConsoleUI>();
             consoleUI.Run();
