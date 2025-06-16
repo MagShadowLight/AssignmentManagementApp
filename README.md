@@ -77,3 +77,7 @@ If you wish to contribute, fork this repository and submit the pull request.
 [Week 6 Reflection](https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fraw.githubusercontent.com%2FMagShadowLight%2FAssignmentManagementApp%2Frefs%2Fheads%2Fmaster%2FReflections%2Freflection_week6.docx&wdOrigin=BROWSELINK)
 
 [Quarter Reflection](https://github.com/MagShadowLight/AssignmentManagementApp/blob/820509382e5b57da83be49f691d0e3a244c83496/Reflections/Reflection.md)
+
+[Developer note 1](https://github.com/MagShadowLight/AssignmentManagementApp/blob/aabd0f64e1d49b16436b538ea66039d0017ef726/DeveloperNotes.txt)
+
+[Developer note 2](https://github.com/MagShadowLight/AssignmentManagementApp/blob/aabd0f64e1d49b16436b538ea66039d0017ef726/ChangePlan.md)
